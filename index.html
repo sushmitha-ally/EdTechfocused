@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkPlus - Combined Demo</title>
+     <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Inter font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Icons (Feather Icons) -->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <style>
+      /* Page styling to match the provided design closely */
+      body { background: #fff; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+      .title { text-align:center; margin-top:34px; margin-bottom:6px; }
+      .subtitle { text-align:center; color:#6c757d; margin-bottom:18px; }
+
+      .filter-pill { border-radius: 30px; padding:6px 14px; border:1px solid #e6e9f2; cursor:pointer; }
+      .filter-pill.active { background:#2b6ef6; color:#fff; border-color:#2b6ef6; }
+
+      .course-card { border-radius:10px; box-shadow: 0 6px 16px rgba(19,24,47,0.06); border: 1px solid rgba(99,102,241,0.06); overflow:hidden; }
+      .course-card .card-img-top { height:140px; object-fit:cover; }
+      .badge-top { position:absolute; right:12px; top:12px; background: rgba(255,255,255,0.95); padding:6px 9px; border-radius:6px; font-size:12px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+
+      .card-body { padding:18px; }
+      .meta { color:#6c757d; font-size:13px; margin-top:10px; }
+      .meta .dot { margin:0 8px; }
+
+      .card-footer { background:transparent; border-top:0; padding:18px; }
+      .price { font-weight:700; font-size:18px; }
+
+      .tag { display:inline-block; background:#f4f6ff; color:#243b8b; border-radius:6px; padding:5px 8px; font-size:12px; margin-right:6px; }
+
+      .view-all { display:block; margin:26px auto 80px; width:170px; }
+
+      @media (max-width: 575px) {
+        .card-body { padding:14px; }
+        .course-card .card-img-top { height:120px; }
+      }
+    </style>
+    <style>
+        /* Custom styles */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .btn {
+            @apply px-5 py-2.5 rounded-lg font-semibold transition-all duration-300;
+        }
+        .btn-primary {
+            @apply bg-blue-600 text-white hover:bg-blue-700 shadow-md hover:shadow-lg;
+        }
+        .btn-primary-gradient {
+            @apply bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5;
+        }
+        .btn-outline {
+            @apply bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:border-gray-400;
+        }
+        .section-padding {
+            @apply py-20 md:py-24 px-6 lg:px-8;
+        }
+        .section-title {
+            @apply text-3xl md:text-4xl font-extrabold text-gray-900 text-center;
+        }
+        .section-subtitle {
+            @apply text-lg text-gray-600 text-center mt-4 max-w-2xl mx-auto;
+        }
+        
+        /* Video Modal Styles */
+        #videoModal {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        #videoModal.hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        #videoModal.visible {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+        .video-card:hover .video-play-icon {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        /* FAQ Accordion styles */
+        .faq-item .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px; /* Adjust as needed */
+            transition: max-height 0.3s ease-in;
+        }
+        .faq-item .faq-arrow {
+            transition: transform 0.3s ease;
+        }
+        .faq-item.open .faq-arrow {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <!-- Header / Navigation -->
+    <nav class="bg-white/95 border-b border-gray-200 sticky top-0 z-50 backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">ThinkPlus</span>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                    <a href="#courses" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">Courses</a>
+                    <a href="#videos" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">Free Classes</a>
+                    <a href="#features" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">Why Us</a>
+                    <a href="#testimonials" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">Testimonials</a>
+                    <a href="#pricing" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">Pricing</a>
+                    <a href="#faq" class="text-gray-700 hover:text-blue-600 inline-flex items-center px-1 pt-1 text-sm font-medium">FAQ</a>
+                </div>
+
+                <!-- Get Started -->
+               <div class="hidden sm:ml-6 sm:flex sm:items-center">
+  <nav class="nav nav-pills flex-column flex-sm-row">
+    <a class="flex-sm-fill text-sm-center nav-link active" href="#" style="background-color: yellow; color: black;">Sign In</a>
+  </nav>
+
+  <nav class="nav nav-pills flex-column flex-sm-row ms-3">
+    <a class="flex-sm-fill text-sm-center nav-link active" href="#" style="background-color: green; color: white;">Start Free Trial</a>
+  </nav>
+</div>
+
+
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="-mr-2 flex items-center sm:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                        <span class="sr-only">Open main menu</span>
+                        <i data-feather="menu" class="block h-6 w-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+
+        <!-- Hero Section (from Creative Demo) -->
+       <section class="section-padding bg-cover bg-center bg-no-repeat pt-24 md:pt-32" 
+    style="background-image: url('backk.jpg');">
+
+  <div class="max-w-4xl mx-auto text-center text-white bg-black/40 p-10 rounded-2xl">
+    <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+      Unlock Your Learning Potential
+    </h1>
+    <p class="mt-6 text-xl">
+      Find your next course and achieve your career goals with our expert-led programs.
+    </p>
+
+    <!-- Search Bar -->
+    <div class="mt-10 max-w-2xl mx-auto">
+      <form class="flex flex-col sm:flex-row gap-3">
+        <input type="text" placeholder="What do you want to learn today?" 
+          class="flex-grow w-full px-5 py-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent shadow-sm text-gray-900">
+        <button type="submit" class="btn btn-primary-gradient px-8 py-4 text-lg" style="background-color:greenyellow;"><b>Search</b></button>
+      </form>
+    </div>
+  </div>
+</section><br>
+
+
+        <!-- Stats Bar (from Original Clone) -->
+        <section class="bg-blue-600 text-white">
+            <div class="max-w-7xl mx-auto py-12 px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <h3 class="text-4xl font-bold">50,000+</h3>
+                        <p class="mt-1 text-blue-100">Active Students</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold">92%</h3>
+                        <p class="mt-1 text-blue-100">Course Completion Rate</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold">4.8/5</h3>
+                        <p class="mt-1 text-blue-100">Average Rating</p>
+                    </div>
+                    <div>
+                        <h3 class="text-4xl font-bold">85%</h3>
+                        <p class="mt-1 text-blue-100">Placement Success</p>
+                    </div>
+                </div>
+            </div>
+        </section><br>
+
+        <!-- Featured Videos Section (from Creative Demo) -->
+        <section id="videos" class="section-padding bg-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" style="text-align: center; color: blue;"><b>Featured Free Classes</b></h2>
+                <p class="section-subtitle" style="text-align: center; color: #243b8b;">
+                    Get a glimpse of our teaching quality with these free introductory videos.
+                </p>
+                
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Video Card 1 -->
+                   <!-- Video Card -->
+<div class="video-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 max-w-md mx-auto">
+
+  <!-- Clickable Thumbnail -->
+  <a href="https://youtu.be/TVGtelBTf4Q?si=KDPRtWVCepTv4YhN" target="_blank" class="relative block">
+    <!-- YouTube Thumbnail -->
+    <img 
+      src="https://img.youtube.com/vi/WsoT4sHX7oU/hqdefault.jpg" 
+      alt="Data Science Introduction" 
+      class="w-full h-56 object-cover">
+
+    <!-- Play Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 hover:bg-opacity-60">
+      <div class="video-play-icon bg-white/30 p-4 rounded-full opacity-80 backdrop-blur-sm">
+        <i data-feather="play" class="h-10 w-10 text-white fill-white"></i>
+      </div>
+    </div>
+  </a>
+
+  <!-- Text Section -->
+  <div class="p-6">
+    <span class="text-sm font-medium text-blue-600">Data Science</span>
+    <h3 class="mt-2 text-xl font-bold text-gray-900">Introduction to Data Science</h3>
+    <p class="mt-2 text-gray-600 text-sm">Learn the fundamentals of Data Science and what a Data Scientist does.</p>
+  </div>
+</div>
+
+<!-- Feather Icons Script -->
+<script src="https://unpkg.com/feather-icons"></script>
+<script>
+  feather.replace();
+</script>
+
+
+
+                    <!-- Video Card 2 -->
+                     <div class="video-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 max-w-md mx-auto">
+
+  <!-- Clickable Thumbnail -->
+  <a href="https://youtu.be/WsoT4sHX7oU?si=ESDkHxRhCyDoMHR2" target="_blank" class="relative block">
+    <!-- YouTube Thumbnail -->
+    <img 
+      src="https://img.youtube.com/vi/WsoT4sHX7oU/hqdefault.jpg" 
+      alt="Data Science Introduction" 
+      class="w-full h-56 object-cover">
+
+    <!-- Play Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 hover:bg-opacity-60">
+      <div class="video-play-icon bg-white/30 p-4 rounded-full opacity-80 backdrop-blur-sm">
+        <i data-feather="play" class="h-10 w-10 text-white fill-white"></i>
+      </div>
+    </div>
+  </a>
+                 
+
+  <!-- Text Content -->
+  <div class="p-6">
+    <span class="text-sm font-medium text-blue-600">Web Development</span>
+    <h3 class="mt-2 text-xl font-bold text-gray-900">Full Stack Web Dev in 100 Secs</h3>
+    <p class="mt-2 text-gray-600 text-sm">learn the Whole FullStack Technologies</p>
+  </div>
+</div>
+
+                    
+                    <!-- Video Card 3 -->
+                    <div class="video-card bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 cursor-pointer transform transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 max-w-md mx-auto">
+
+  <!-- Local Video -->
+  <a href="https://youtu.be/FvDLtR5kHMM?si=chR-H3-rz8UHAeoY" target="_blank" class="relative block">
+    <!-- YouTube Thumbnail -->
+    <img 
+      src="https://img.youtube.com/vi/WsoT4sHX7oU/hqdefault.jpg" 
+      alt="Data Science Introduction" 
+      class="w-full h-56 object-cover">
+
+    <!-- Play Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center transition-all duration-300 hover:bg-opacity-60">
+      <div class="video-play-icon bg-white/30 p-4 rounded-full opacity-80 backdrop-blur-sm">
+        <i data-feather="play" class="h-10 w-10 text-white fill-white"></i>
+      </div>
+    </div>
+  </a>
+
+  <!-- Text Content -->
+  <div class="p-6">
+    <span class="text-sm font-medium text-blue-600">UPSC</span>
+    <h3 class="mt-2 text-xl font-bold text-gray-900">Strategies of UPSC</h3>
+    <p class="mt-2 text-gray-600 text-sm">You have to get the workplan of UPSC.</p>
+  </div>
+</div>
+
+</div>
+</section><br>
+
+        <!-- Explore Courses Section (from Original Clone) -->
+        <section id="courses" class="section-padding bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <span class="block text-blue-600 font-semibold text-center"><b>Our Courses</b></span>
+                
+                
+                <!-- Filter Buttons -->
+                
+    <div class="container">
+      <h1 class="title"><span style="font-weight:700; text-align: center;">Explore Our</span> <span style="color:#2b6ef6;">Popular Courses</span></h1>
+      <p class="subtitle">Choose from our wide range of courses designed by industry experts</p>
+
+      <div class="d-flex justify-content-center mb-4">
+        <div class="btn-group" role="group" aria-label="filters">
+          <button class="btn btn-sm btn-outline-secondary filter-pill active" data-filter="all">All</button>
+          <button class="btn btn-sm btn-outline-secondary filter-pill" data-filter="mba">MBA Prep</button>
+          <button class="btn btn-sm btn-outline-secondary filter-pill" data-filter="tech">Tech Skills</button>
+          <button class="btn btn-sm btn-outline-secondary filter-pill" data-filter="eng">Engineering</button>
+          <button class="btn btn-sm btn-outline-secondary filter-pill" data-filter="mkt">Marketing</button>
+          <button class="btn btn-sm btn-outline-secondary filter-pill" data-filter="civil">Civil Services</button>
+        </div>
+      </div>
+
+      <!-- Courses grid -->
+      <div class="row g-4" id="coursesGrid">
+
+                    
+                    <!-- Course Card 1 -->
+                    <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="mba">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="susuu3.jpg" class="card-img-top" alt="MBA Entrance">
+              <div class="badge-top">MBA Prep</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">MBA Entrance Mastery</h5>
+              <p class="card-text">Complete preparation for CAT, XAT, SNAP with live classes and doubt sessions</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.8</div>
+                <div><i class="bi bi-people"></i> 2,500 students</div>
+                <div class="dot">•</div>
+                <div>6 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹15,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+                   
+                   
+
+                <!-- Card 2 -->
+        <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="tech">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="susu2.jpg" class="card-img-top" alt="Data Science">
+              <div class="badge-top">Tech Skills</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Data Science & Analytics</h5>
+              <p class="card-text">Master Python, SQL, Machine Learning and land your dream data science job</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.9</div>
+                <div><i class="bi bi-people"></i> 3,200 students</div>
+                <div class="dot">•</div>
+                <div>8 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹24,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="eng">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=60" class="card-img-top" alt="GATE">
+              <div class="badge-top">Engineering</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">GATE Engineering Prep</h5>
+              <p class="card-text">Comprehensive GATE preparation for CS, EC, ME with previous year analysis</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.7</div>
+                <div><i class="bi bi-people"></i> 1,800 students</div>
+                <div class="dot">•</div>
+                <div>10 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹12,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="mkt">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=60" class="card-img-top" alt="Marketing">
+              <div class="badge-top">Marketing</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Digital Marketing Pro</h5>
+              <p class="card-text">Learn SEO, Social Media, PPC, Content Marketing from industry experts</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.6</div>
+                <div><i class="bi bi-people"></i> 2,100 students</div>
+                <div class="dot">•</div>
+                <div>4 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹18,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="civil">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=1400&q=60" class="card-img-top" alt="Civil Services">
+              <div class="badge-top">Civil Services</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">UPSC CSE Foundation</h5>
+              <p class="card-text">Complete UPSC Civil Services preparation with current affairs and answer writing</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.9</div>
+                <div><i class="bi bi-people"></i> 1,500 students</div>
+                <div class="dot">•</div>
+                <div>12 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹29,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="col-12 col-md-6 col-lg-4 course-item" data-cat="tech">
+          <div class="card course-card h-100">
+            <div class="position-relative">
+              <img src="susuu4.png" class="card-img-top" alt="Full Stack">
+              <div class="badge-top">Tech Skills</div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Full Stack Development</h5>
+              <p class="card-text">Build complete web applications with React, Node.js, MongoDB from scratch</p>
+              <div class="meta d-flex flex-wrap align-items-center">
+                <div class="me-3"><i class="bi bi-star-fill text-warning"></i> 4.8</div>
+                <div><i class="bi bi-people"></i> 4,200 students</div>
+                <div class="dot">•</div>
+                <div>6 Months</div>
+              </div>
+            </div>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+              <div>
+                <span class="price">₹22,999</span>
+              </div>
+              <div>
+                <button class="btn btn-primary btn-sm">Enroll Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <a href="#" class="btn btn-outline-primary view-all">View All Courses</a>
+
+    </div>
+        </section>
+
+        <!-- Why Choose ThinkPlus Section (from Original Clone) -->
+        <section id="features" class="section-padding bg-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" style="text-align: center;">Why Choose <span class="text-blue-600"><b>EdTech</b></span></h2>
+                <p class="section-subtitle" style="text-align: center;">
+                    We provide everything you need to succeed in your learning journey.
+                </p>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Feature Item 1 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-2.144M12 6v11M11.644 16.356a3 3 0 01-5.356-2.144V12a3 3 0 013-3h2a3 3 0 013 3v2.212" />
+                                <path d="M12 6V3m0 3V3m0 3v3m0 0V3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V3m0 3v3m0 0V3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v3m0-3v3m0 0V3M5 20h5v-2a3 3 0 00-5.356-2.144" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Live Interactive Classes</h3>
+                        <p class="mt-2 text-gray-600">Engage with expert instructors in real-time with live doubt clearing sessions.</p>
+                    </div>
+
+                    <!-- Feature Item 2 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1.75-1.75M9.75 17h1.5M11.25 17l.75 3 1.75-1.75M11.25 17h1.5M12.75 17l.75 3 1.75-1.75M12.75 17h1.5M14.25 17l.75 3 1.75-1.75M14.25 17h1.5M15.75 17l.75 3 1.75-1.75M15.75 17h1.5M17.25 17l.75 3 1.75-1.75M17.25 17h1.5M18.75 17l.75 3 1.75-1.75M18.75 17h1.5M7.5 13.5h9M7.5 10.5h9M7.5 7.5h9M7.5 4.5h9M3 3h18v18H3V3z" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Personalized Learning Path</h3>
+                        <p class="mt-2 text-gray-600">AI-powered curriculum tailored to your learning pace and goals.</p>
+                    </div>
+
+                    <!-- Feature Item 3 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-2.144M12 6v11M11.644 16.356a3 3 0 01-5.356-2.144V12a3 3 0 013-3h2a3 3 0 013 3v2.212" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6V3m0 3v3m0 0V3M5 20h5v-2a3 3 0 00-5.356-2.144" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Industry Mentorship</h3>
+                        <p class="mt-2 text-gray-600">Get guidance from professionals working in top companies.</p>
+                    </div>
+
+                    <!-- Feature Item 4 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h10a2 2 0 012 2v1m-3 13V1" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Mock Tests & Analysis</h3>
+                        <p class="mt-2 text-gray-600">Practice with exam-like tests and get detailed performance reports.</p>
+                    </div>
+
+                    <!-- Feature Item 5 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m10 0h-2M7 6H5m10 0v3H9V6h2Z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v5m0 0v-5m0 0H9m3 0h3" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Placement Assistance</h3>
+                        <p class="mt-2 text-gray-600">Get help with resume-building, mock interviews, and job referrals.</p>
+                    </div>
+
+                    <!-- Feature Item 6 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <div class="bg-blue-100 text-blue-600 w-12 h-12 rounded-lg flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="mt-5 text-xl font-semibold text-gray-900">Lifetime Access</h3>
+                        <p class="mt-2 text-gray-600">Access course materials, videos, and updates for a lifetime.</p>
+                    </div>
+
+                </div>
+            </div>
+        </section><br><br>
+
+        <!-- Success Stories Section (from Original Clone) -->
+        <section id="testimonials" class="section-padding bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" style="text-align: center;"><b>Success</b> <span class="text-blue-600"><b>Stories</b></span></h2>
+                <p class="section-subtitle" style="text-align: center;">
+                    Hear from our students who achieved their dreams with ThinkPlus.
+                </p>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-lg">
+                        <div class="flex items-center text-yellow-500">
+                            <!-- 5 Stars -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <!-- ... (repeat 4 more times) ... -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                        </div>
+                        <p class="mt-4 text-lg text-gray-700 italic">
+                            "ThinkPlus transformed my preparation journey. The structured approach and doubt sessions helped me crack CAT with confidence."
+                        </p>
+                        <div class="mt-6 flex items-center">
+                            <img class="h-12 w-12 rounded-full object-cover" src="susuu.jpeg" alt="Priya Sharma">
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-gray-900">Priya Sharma</h4>
+                                <p class="text-sm text-gray-600">CAT '23 99%ile, Vignan University</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="bg-white p-8 rounded-xl border border-gray-200 shadow-lg">
+                        <div class="flex items-center text-yellow-500">
+                            <!-- 5 Stars -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <!-- ... (repeat 4 more times) ... -->
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.286 3.966a1 1 0 00.95.69h4.17c.969 0 1.371 1.24.588 1.81l-3.374 2.45a1 1 0 00-.364 1.118l1.287 3.966c.3.921-.755 1.688-1.54 1.118l-3.374-2.45a1 1 0 00-1.175 0l-3.374 2.45c-.784.57-1.838-.197-1.54-1.118l1.287-3.966a1 1 0 00-.364-1.118L2.24 9.393c-.783-.57-.38-1.81.588-1.81h4.17a1 1 0 00.95-.69l1.286-3.966z"></path></svg>
+                        </div>
+                        <p class="mt-4 text-lg text-gray-700 italic">
+                            "The practical projects and mentorship at ThinkPlus gave me real-world skills. Got placed in my dream company within 2 months of completion."
+                        </p>
+                        <div class="mt-6 flex items-center">
+                            <img class="h-12 w-12 rounded-full object-cover" src="narayana.jpeg" alt="Rahul Verma">
+                            <div class="ml-4">
+                                <h4 class="font-semibold text-gray-900">Lakshmi Narayana</h4>
+                                <p class="text-sm text-gray-600">Data Scientist at Microsoft</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><br><br>
+
+        <!-- Pricing Section (from Original Clone) -->
+        <section id="pricing" class="section-padding bg-white">
+            <div class="max-w-7xl mx-auto">
+                <h2 class="section-title" style="text-align: center;"><b>Simple, Transparent </b><span class="text-blue-600"><b>Pricing</b></span></h2>
+                <p class="section-subtitle" style="text-align: center;">
+                    Choose the plan that best fits your learning goals.
+                </p>
+
+                <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <!-- Plan 1: Starter -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Starter</h3>
+                        <p class="mt-1 text-sm text-gray-500">Free forever</p>
+                        <p class="mt-4 text-4xl font-extrabold text-gray-900">Free</p>
+                        <ul class="mt-6 space-y-3 text-gray-600">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Access to free courses
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Community support
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Basic study materials
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Weekly newsletters
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 btn btn-outline w-full block text-center">Get Started</a>
+                    </div>
+
+                    <!-- Plan 2: Pro (Most Popular) -->
+                    <div class="bg-white p-8 rounded-xl shadow-2xl border-2 border-blue-600 relative">
+                        <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">Most Popular</span>
+                        <h3 class="text-2xl font-semibold text-gray-900">Pro</h3>
+                        <p class="mt-1 text-sm text-gray-500">per month</p>
+                        <p class="mt-4 text-4xl font-extrabold text-gray-900">₹4,999 <span class="text-lg font-normal text-gray-500">/month</span></p>
+                        <ul class="mt-6 space-y-3 text-gray-600">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                All Pro features
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Access to premium courses
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Live doubt sessions
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Unlimited mock tests
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 btn btn-primary w-full block text-center">Choose Pro</a>
+                    </div>
+
+                    <!-- Plan 3: Enterprise -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900">Enterprise</h3>
+                        <p class="mt-1 text-sm text-gray-500">per year</p>
+                        <p class="mt-4 text-4xl font-extrabold text-gray-900">₹39,999 <span class="text-lg font-normal text-gray-500">/year</span></p>
+                        <ul class="mt-6 space-y-3 text-gray-600">
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                All Pro features
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Access to all courses
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                Priority support
+                            </li>
+                            <li class="flex items-center">
+                                <svg class="w-5 h-5 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                1-on-1 mentorship
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-8 btn btn-outline w-full block text-center">Contact Sales</a>
+                    </div>
+                </div>
+            </div>
+        </section><br><br>
+
+        <!-- FAQ Section (from Original Clone) -->
+        <section id="faq" class="section-padding bg-gray-50">
+            <div class="max-w-3xl mx-auto">
+                <h2 class="section-title" style="text-align: center;"><b>Frequently Asked</b> <span class="text-blue-600"><b>Questions</b></span></h2>
+                <p class="section-subtitle" style="text-align: center;">
+                    Got questions? We've got answers.
+                </p>
+
+                <div class="mt-12 space-y-4" id="faq-accordion">
+                    <!-- FAQ Item 1 -->
+                    <div class="faq-item bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                            <span class="font-semibold text-lg text-gray-900">What courses does ThinkPlus offer?</span>
+                            <svg class="faq-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer px-6 pb-6">
+                            <p class="text-gray-600">EdTech offers a wide range of courses including MBA Prep, Tech Skills like Data Science and Full Stack Development, Engineering exam prep (GATE), Civil Services (UPSC), and Digital Marketing.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="faq-item bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                            <span class="font-semibold text-lg text-gray-900">Are the classes live or recorded?</span>
+                            <svg class="faq-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer px-6 pb-6">
+                            <p class="text-gray-600">We offer a mix of live interactive classes for doubt clearing and mentorship, as well as high-quality recorded video lectures that you can access anytime, anywhere.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="faq-item bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                            <span class="font-semibold text-lg text-gray-900">What is the refund policy?</span>
+                            <svg class="faq-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer px-6 pb-6">
+                            <p class="text-gray-600">We offer a 7-day no-questions-asked refund policy on all our premium courses. If you're not satisfied, you can request a full refund within 7 days of purchase.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- FAQ Item 4 -->
+                    <div class="faq-item bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                            <span class="font-semibold text-lg text-gray-900">Do you provide placement assistance?</span>
+                            <svg class="faq-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer px-6 pb-6">
+                            <p class="text-gray-600">Yes, our Pro and Enterprise plans include comprehensive placement assistance, which includes resume building, mock interviews, and access to our exclusive job portal with referrals from top companies.</p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 5 -->
+                    <div class="faq-item bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                        <button class="faq-question w-full flex justify-between items-center text-left p-6">
+                            <span class="font-semibold text-lg text-gray-900">Can I access courses after completion?</span>
+                            <svg class="faq-arrow w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </button>
+                        <div class="faq-answer px-6 pb-6">
+                            <p class="text-gray-600">Absolutely! With our Lifetime Access feature, all course materials, video lectures, and future updates are yours to keep forever, even after you've completed the course.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section><br>
+
+    </main>
+
+    <!-- Footer (from Original Clone) -->
+    <footer class="bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto py-16 px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
+                <!-- Column 1: Brand & Contact -->
+                <div class="md:col-span-2 lg:col-span-2">
+                    <span class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500">EdTech</span>
+                    <p class="mt-4 text-gray-400 max-w-sm">
+                        Empowering students to achieve their dreams through quality education and expert mentorship.
+                    </p>
+                    <div class="mt-6 space-y-3">
+                        <p class="flex items-center">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                            support@thinkplus.co.in
+                        </p>
+                        <p class="flex items-center">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            +91 1800-123-4567
+                        </p>
+                        <p class="flex items-center">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657l-4.243-4.243a1 1 0 00-1.414 0l-4.243 4.243a1 1 0 001.414 1.414L12 15.414l2.828 2.829a1 1 0 001.414-1.414z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"></path></svg>
+                            Bangalore, Karnataka, India
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Column 2: Company -->
+                <div>
+                    <h4 class="text-white font-semibold tracking-wider uppercase">Company</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="hover:text-white">About Us</a></li>
+                        <li><a href="#" class="hover:text-white">Careers</a></li>
+                        <li><a href="#" class="hover:text-white">Press</a></li>
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Courses -->
+                <div>
+                    <h4 class="text-white font-semibold tracking-wider uppercase">Courses</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="hover:text-white">MBA Prep</a></li>
+                        <li><a href="#" class="hover:text-white">Tech Skills</a></li>
+                        <li><a href="#" class="hover:text-white">Engineering</a></li>
+                        <li><a href="#" class="hover:text-white">Civil Services</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Support -->
+                <div>
+                    <h4 class="text-white font-semibold tracking-wider uppercase">Support</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white">FAQs</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                 <!-- Column 5: Resources -->
+                <div class="lg:col-start-5">
+                    <h4 class="text-white font-semibold tracking-wider uppercase">Resources</h4>
+                    <ul class="mt-4 space-y-3">
+                        <li><a href="#" class="hover:text-white">Free Materials</a></li>
+                        <li><a href="#" class="hover:text-white">Success Stories</a></li>
+                        <li><a href="#" class="hover:text-white">Community</a></li>
+                        <li><a href="#" class="hover:text-white">Events</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="mt-18 pt-8 border-t border-gray-700 text-center">
+                <p style="text-align: center;">All Copy rights &copy;2025 All Right Reserved.</p>
+                 <p>Developed and Maintained By Sushmitha Gouni</p>
+       
+            </div>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="hidden fixed inset-0 z-[60] bg-black bg-opacity-80 flex items-center justify-center p-4">
+        <div class="relative bg-black w-full max-w-4xl rounded-lg shadow-2xl">
+            <!-- Close Button -->
+            <button id="closeModal" class="absolute -top-3 -right-3 z-10 bg-white rounded-full p-1 shadow-lg hover:bg-gray-200">
+                <i data-feather="x" class="w-6 h-6 text-gray-800"></i>
+            </button>
+            <!-- Video Player -->
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe id="videoPlayer" class="w-full h-full rounded-lg" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JavaScript for Interactions -->
+    <script>
+        // Initialize Feather Icons
+        feather.replace();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- Video Modal Logic ---
+            const videoCards = document.querySelectorAll('.video-card');
+            const modal = document.getElementById('videoModal');
+            const closeModalBtn = document.getElementById('closeModal');
+            const videoPlayer = document.getElementById('videoPlayer');
+
+            // Function to open the modal
+            function openModal(videoId) {
+                videoPlayer.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                modal.classList.remove('hidden');
+                modal.classList.add('visible');
+            }
+
+            // Function to close the modal
+            function closeModal() {
+                videoPlayer.src = ''; // Stop the video
+                modal.classList.add('hidden');
+                modal.classList.remove('visible');
+            }
+
+            // Add click listeners to all video cards
+            videoCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const videoId = card.getAttribute('data-video-id');
+                    openModal(videoId);
+                });
+            });
+
+            // Add click listener to close button
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', closeModal);
+            }
+
+            // Add click listener to modal background to close
+            if (modal) {
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        closeModal();
+                    }
+                });
+            }
+
+            // Close modal on 'Escape' key press
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && modal.classList.contains('visible')) {
+                    closeModal();
+                }
+            });
+
+            // --- Course Filtering Logic ---
+            const filterButtons = document.querySelectorAll('#course-filters .filter-btn');
+            const courseCards = document.querySelectorAll('#course-grid .course-card');
+
+            if (filterButtons.length > 0 && courseCards.length > 0) {
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const filter = this.getAttribute('data-filter');
+
+                        // Update active button style
+                        filterButtons.forEach(btn => btn.classList.remove('active', 'bg-blue-100', 'text-blue-700'));
+                        filterButtons.forEach(btn => btn.classList.add('btn-outline'));
+                        this.classList.add('active', 'bg-blue-100', 'text-blue-700');
+                        this.classList.remove('btn-outline');
+
+                        // Show/Hide course cards
+                        courseCards.forEach(card => {
+                            const category = card.getAttribute('data-category');
+                            if (filter === 'all' || filter === category) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            }
+
+            // --- FAQ Accordion Logic ---
+            const faqItems = document.querySelectorAll('.faq-item');
+
+            if (faqItems.length > 0) {
+                faqItems.forEach(item => {
+                    const question = item.querySelector('.faq-question');
+                    if (question) {
+                        question.addEventListener('click', () => {
+                            // Check if the item is already open
+                            const isOpen = item.classList.contains('open');
+
+                            // Optional: Close all other items
+                            // faqItems.forEach(i => i.classList.remove('open'));
+                            
+                            // Toggle the clicked item
+                            if (isOpen) {
+                                item.classList.remove('open');
+                            } else {
+                                item.classList.add('open');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    </script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+      // Filter logic for pills
+      document.querySelectorAll('.filter-pill').forEach(btn => {
+        btn.addEventListener('click', function(){
+          document.querySelectorAll('.filter-pill').forEach(b=>b.classList.remove('active'));
+          this.classList.add('active');
+          const filter = this.getAttribute('data-filter');
+          document.querySelectorAll('.course-item').forEach(item => {
+            if(filter === 'all') { item.style.display = ''; }
+            else { item.style.display = item.getAttribute('data-cat') === filter ? '' : 'none'; }
+          });
+        });
+      });
+
+      // Small interaction: show toast or alert on enroll
+      document.querySelectorAll('.course-card .btn').forEach(b => {
+        b.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const course = e.target.closest('.course-card').querySelector('.card-title').innerText;
+          alert('Enrolled in: ' + course + ' (demo)');
+        });
+      });
+    </script>
+
+</body>
+</html>
